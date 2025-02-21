@@ -16,8 +16,15 @@ class DirectorFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = fake()->randomElement(['male', 'female']);
         return [
-            //
+            'first_name' => fake()->firstName($gender),
+            'last_name' => fake()->lastName($gender),
+            'biography' => fake()->paragraph(2),
+            'picture' => fake()->imageUrl(),
+            'gender' => $gender,
+            'birth_date' => fake()->date('Y-m-d'),
+            'death_date' => fake()->randomElement([null, fake()->date('Y-m-d')]),
         ];
     }
 }

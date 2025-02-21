@@ -17,7 +17,8 @@ class AwardFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'award_name' => fake()->word(),
+            'award_image' => fake()->imageUrl(),
         ];
     }
 }

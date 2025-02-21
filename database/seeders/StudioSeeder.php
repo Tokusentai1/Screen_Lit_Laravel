@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Studio;
 
 class StudioSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class StudioSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Studio::factory()->count(10)->create();
     }
 }
