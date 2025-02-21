@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -18,8 +20,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'gender',
+        'birth_date',
+        'picture',
         'password',
     ];
 
@@ -29,8 +35,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
+        'id',
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -43,6 +52,58 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birth_date' => 'date',
         ];
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getGenderAttribute(): string
+    {
+        if ($this->gender == "Male") {
+            return 'Mr. ' . $this->first_name;
+        } elseif ($this->gender == "Female") {
+            return 'Ms. ' . $this->first_name;
+        } else {
+            return $this->first_name;
+        }
+    }
+
+    public function setEmailAttribute($value): void
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    public function setFirstNameAttribute($value): void
+    {
+        $this->attributes['first_name'] = ucfirst($value);
+    }
+
+    public function setLastNameAttribute($value): void
+    {
+        $this->attributes['last_name'] = ucfirst($value);
+    }
+
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class, 'favorites');
+    }
+
+    public function wishlists(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class, 'wishlists');
+    }
+
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }

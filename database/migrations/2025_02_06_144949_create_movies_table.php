@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('movie_biography');
             $table->decimal('movie_price', 5, 2);
             $table->string('movie_poster');
-            $table->time('movie_duration');
+            $table->integer('movie_duration');
             $table->date('movie_release_date');
             $table->string('movie_trailer_url');
             $table->timestamps();
