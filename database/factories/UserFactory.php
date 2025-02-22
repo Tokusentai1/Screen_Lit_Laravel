@@ -5,6 +5,8 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Movie;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -35,6 +37,15 @@ class UserFactory extends Factory
             'birth_date' => fake()->date('Y-m-d'),
             'gender' => $gender,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $movies = Movie::inRandomOrder()->limit(mt_rand(1, 3))->pluck('id');
+            $user->wishlists()->attach($movies);
+            $user->favorites()->attach($movies);
+        });
     }
 
     /**
