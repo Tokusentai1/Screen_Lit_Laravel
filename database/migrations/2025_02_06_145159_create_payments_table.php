@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('card_type');
-            $table->integer('stripe_charge_id')->unique();
+            $table->string('card_type', 20);
+            $table->string('card_last_four', 4);
+            $table->text('stripe_charge_id')->unique();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
             $table->timestamps();
         });

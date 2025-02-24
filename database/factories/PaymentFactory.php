@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\Order;
 
 /**
@@ -19,7 +20,8 @@ class PaymentFactory extends Factory
     {
         return [
             'card_type' => fake()->creditCardType(),
-            'stripe_charge_id' => encrypt(fake()->creditCardNumber()),
+            'card_last_four' => substr(fake()->creditCardNumber(), -4),
+            'stripe_charge_id' => Crypt::encryptString(fake()->uuid()),
             'order_id' => Order::inRandomOrder()->value('id') ?? Order::factory(),
         ];
     }
