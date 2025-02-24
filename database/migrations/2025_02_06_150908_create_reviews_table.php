@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->integer('movie_score');
             $table->text('movie_comment')->nullable();
-            $table->timestamps();
         });
     }
 
