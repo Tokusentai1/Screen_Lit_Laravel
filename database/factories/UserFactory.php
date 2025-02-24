@@ -45,6 +45,10 @@ class UserFactory extends Factory
             $movies = Movie::inRandomOrder()->limit(mt_rand(1, 3))->pluck('id');
             $user->wishlists()->attach($movies);
             $user->favorites()->attach($movies);
+            $user->reviews()->attach(
+                $movies,
+                ['movie_score' => fake()->numberBetween(1, 5), 'movie_comment' => fake()->paragraph(),]
+            );
         });
     }
 

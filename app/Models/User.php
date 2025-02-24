@@ -102,8 +102,8 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class);
     }
 
-    public function reviews(): HasMany
+    public function reviews(): BelongsToMany
     {
-        return $this->hasMany(Review::class);
+        return $this->belongsToMany(Movie::class, 'reviews')->withPivot(['movie_score', 'movie_comment']);
     }
 }
